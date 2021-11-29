@@ -34,11 +34,6 @@ let validateLineup = (lineup) => {
       Boolean - returns true when the lineup satisfies all conditions
 
 ## Lineup Rules
-1) The total salary of all players in a lineup may not exceed $45,000
-      returns false when the lineup has a total salary greater than 45000
-        total lineup[i].salary
-        if total > 45000
-        return false
 
 2) Lineups may not contain more than 2 players from a single team
       returns false when the lineup includes too many players from a single team
