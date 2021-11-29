@@ -1,4 +1,4 @@
-let TotalSalary = (lineup) => {
+let totalSalary = (lineup) => {
   return lineup.reduce((salary, player) => {
     return salary + player.salary
   }, 0)
@@ -12,12 +12,12 @@ let countPlayerPerTeam = (lineup) => {
 }
 
 let salaryOver = (lineup) => {
-  return TotalSalary(lineup) > 45000
+  return totalSalary(lineup) > 45000
 }
 
 
-let playerPerTeam = (countPlayerPerTeam) => {
-  return Object.values(playerPerTeam).some((count) => { return count > 2 })
+let teamOver = (countTeam) => {
+  return Object.values(countTeam).some((count) => { return count > 2 })
 }
 
 let validateLineup = (lineup) => {
