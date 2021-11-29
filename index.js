@@ -5,9 +5,26 @@ let totalSalary = (lineup) => {
 }
 
 let countPlayerPerTeam = (lineup) => {
-  return lineup.reduce((countTeam, player) =>  {
+  return lineup.reduce((countTeam, player) => {
     countTeam[player.teamId] = countTeam[player.teamId] === undefined ? 1 : countTeam[player.teamId] + 1
+
     return countTeam
+  }, {})
+}
+
+let countPlayerPerGame = (lineup) => {
+  return lineup.reduce((countGame, player) => {
+    countGame[player.gameId] = countGame[player.gameId] === undefined ? 1 : countGame[player.gameId] + 1
+
+    return countGame
+  }, {})
+}
+
+let countPlayerPerPos = (lineup) => {
+  return lineup.reduce((countPos, player) => {
+    countPos[player.position] = countPos[player.position] === undefined ? 1 : countPos[player.position] + 1
+
+    return countPos
   }, {})
 }
 
@@ -15,59 +32,27 @@ let salaryOver = (lineup) => {
   return totalSalary(lineup) > 45000
 }
 
-
 let teamOver = (countTeam) => {
   return Object.values(countTeam).some((count) => { return count > 2 })
 }
 
-let validateLineup = (lineup) => {
-  const playerPerTeam = countPlayerPerTeam(lineup)
-
-  return !salaryOver(lineup) && !countPlayerPerTeam(playerPerTeam)
-
-
+let gameOver = (countGame) => {
+  return Object.values(countGame).some((count) => { return count > 3 })
 }
 
+let posOver = (countPos) => {
+  return countPos['P'] !== 1 || countPos['C'] !== 1 || countPos['1B'] !== 1 ||
+  countPos['2B'] !== 1 || countPos['3B'] !== 1 || countPos['SS'] !== 1 ||
+  countPos['OF'] !== 3
+}
 
-/*
+let validateLineup = (lineup) => {
+  const countTeam = countPlayerPerTeam(lineup) // this may need to be teamCount
+  const countGame = countPlayerPerGame(lineup) // this may need to be gameCount
+  const countPos = countPlayerPerPos(lineup)
 
-1. What does it do?
-    Checks a lineup and returns True if all rules are met.
+  return !salaryOver(lineup) && !teamOver(countTeam) &&
+  !gameOver(countGame) && !posOver(countPos)
+}
 
-2. What are the inputs?
-    An array - lineup[]
-    consisting of objects with the keys:
-      id: string
-      name: string
-      position: string
-      teamId: number
-      gameId: number
-      salary: number
-
-3. What is the output?
-      Boolean - returns true when the lineup satisfies all conditions
-
-## Lineup Rules
-
-2) Lineups may not contain more than 2 players from a single team
-      returns false when the lineup includes too many players from a single team
-      filter to new array based on teamId
-      if length of new array > 2
-      return false
-
-3) Lineups may not contain more than 3 players from a single game
-      returns false when the lineup includes too many players from a single game
-      filter to new array based on gameId
-      if length of new array > 2
-      return false
-
-4) Lineups must contain exactly 3 players with the position of 'OF' 
-and must also contain exactly 1 player from each of the following positions: 
-'P', 'C', '1B', '2B', '3B', 'SS'
-      returns false when the lineup includes too many players
-      returns false when the lineup does not have the right number of players at each position
-      returns false when the lineup includes too few players from a single position
-      returns false when the lineup does not include a player from a position
-
-*/
 module.exports = validateLineup
