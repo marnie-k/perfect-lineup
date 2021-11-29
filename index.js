@@ -4,12 +4,26 @@ let TotalSalary = (lineup) => {
   }, 0)
 }
 
+let countPlayerPerTeam = (lineup) => {
+  return lineup.reduce((countTeam, player) =>  {
+    countTeam[player.teamId] = countTeam[player.teamId] === undefined ? 1 : countTeam[player.teamId] + 1
+    return countTeam
+  }, {})
+}
+
 let salaryOver = (lineup) => {
   return TotalSalary(lineup) > 45000
 }
 
+
+let playerPerTeam = (countPlayerPerTeam) => {
+  return Object.values(playerPerTeam).some((count) => { return count > 2 })
+}
+
 let validateLineup = (lineup) => {
-  return !salaryOver(lineup)
+  const playerPerTeam = countPlayerPerTeam(lineup)
+
+  return !salaryOver(lineup) && !countPlayerPerTeam(playerPerTeam)
 
 
 }
