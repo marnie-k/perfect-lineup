@@ -47,8 +47,8 @@ let posOver = (countPos) => {
 }
 
 let validateLineup = (lineup) => {
-  const countTeam = countPlayerPerTeam(lineup) // this may need to be teamCount
-  const countGame = countPlayerPerGame(lineup) // this may need to be gameCount
+  const countTeam = countPlayerPerTeam(lineup)
+  const countGame = countPlayerPerGame(lineup)
   const countPos = countPlayerPerPos(lineup)
 
   return !salaryOver(lineup) && !teamOver(countTeam) &&
